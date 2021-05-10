@@ -9,11 +9,7 @@
         android:orderInCategory="100"
         android:title="@string/about_page"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/listview_page"
-        android:orderInCategory="110"
-        android:title="@string/listview_page"
-        app:showAsAction="never" />
+
 </menu>
 
 

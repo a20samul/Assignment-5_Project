@@ -1,6 +1,4 @@
 <resources>
     <string name="app_name">Project</string>
     <string name="about_page">About</string>
-    <string name="listview_page">Listview</string>
-    <string name="icon"></string>
 </resources>
