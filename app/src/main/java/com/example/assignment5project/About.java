@@ -17,6 +17,17 @@ public class About extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+
+
+        Button returnButton = findViewById(R.id.return_button);
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("END", "Finish app");
+                finish();
+
+            }
+        });
     }
 
     @Override
@@ -26,14 +37,5 @@ public class About extends AppCompatActivity {
         return true;
     }
 
-    Button returnButton = findViewById(R.id.return_button);
-    returnButton.setOnClickListener(new View.OnClickListener() {
 
-        @Override
-        public void onClick(View view) {
-            Log.d("END", "Finish app");
-            finish();
-
-        }
-    });
 }
