@@ -1,8 +1,10 @@
 package com.example.assignment5project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,12 +19,6 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    public void showAboutPage(){
-        //.loadUrl("file:///android_asset/about.html");
-
-     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -30,20 +26,38 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.about_page) {
-            showAboutPage();
-            Log.d("==>","Will display About page");
-            return true;
+        switch (item.getItemId()){
+            case R.id.about_page:
+                Intent intent = new Intent(MainActivity.this, About.class);
+                Log.d("ABOUT", "About page");
+                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+  //  @Override
+    //public boolean onOptionsItemSelected(MenuItem item) {
+
+    //  int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+      //  if (id == R.id.about_page)
+        //showAboutPage();
+    //onMenuItemSelected(R.id.dropdown_menu, R.id.about_page) {
+      //      Intent intent = new Intent(MainActivity.this, About.class);
+        //    Log.d("==>","Will display About page");
+          //  return true;
+    // }
+      //  return super.onOptionsItemSelected(item);
+    //}
+
+    //public void showAboutPage(){
+    //  loadurl(file///:assets/about.html)
+    // }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
