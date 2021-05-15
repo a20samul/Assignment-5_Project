@@ -19,11 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         Button enterButton = findViewById(R.id.enter_button);
         enterButton.setOnClickListener(new View.OnClickListener() {
@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.about_page:
                 Intent intent = new Intent(MainActivity.this, About.class);
-                Log.d("ABOUT", "About page");
                 startActivity(intent);
+                Log.d("ABOUT", "About page");
         }
         return super.onOptionsItemSelected(item);
     }
