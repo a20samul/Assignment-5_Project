@@ -28,15 +28,23 @@ public class SecondActivity extends AppCompatActivity {
         }
 
         TextView textName = findViewById(R.id.text_name);
-        textName.setText(name);
+        textName.setText(name +"!");
 
-        
+
         Button wondersButton = findViewById(R.id.button_wonder);
         wondersButton.setOnClickListener(view -> {
             Intent intent2 = new Intent(SecondActivity.this, ListviewActivity.class);
             startActivity(intent2);
             Log.d("TAG", "Start ListviewActivity");
         });
+
+        Button aboutButton = findViewById(R.id.button_about);
+        aboutButton.setOnClickListener(view -> {
+            Intent intent3 = new Intent(SecondActivity.this, About.class);
+            startActivity(intent3);
+            Log.d("TAG", "Load About page");
+        });
+
 
     }
 }
