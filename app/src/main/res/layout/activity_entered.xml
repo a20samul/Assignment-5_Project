@@ -13,55 +13,90 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="11dp"
         android:text="Welcome,"
-        android:textSize="25sp"
+        android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/text_name"
         app:layout_constraintHorizontal_bias="0.903"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:fontFamily="cursive"
+        android:textColor="@color/black"
+
+        />
 
     <TextView
         android:id="@+id/text_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textSize="25sp"
+        android:fontFamily="cursive"
+        android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.655"
         app:layout_constraintRight_toLeftOf="@+id/text2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/black"
+
+        />
+
+    <TextView
+        android:id="@+id/heart2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="45dp"
+        android:text="❤"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/text3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text2"
+
+        />
 
     <TextView
         android:id="@+id/text3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
-        android:textSize="17sp"
+        android:layout_marginTop="160dp"
+        android:fontFamily="sans-serif-smallcaps"
         android:text="What would you like to learn more about today?"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/heart2"
+        android:textColor="@color/black"
+
+        />
+
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button_wonder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:text="Wonders of the world"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text3" />
+        app:layout_constraintTop_toBottomOf="@+id/text3"
+        android:fontFamily="sans-serif-smallcaps"
+        android:textColor="@color/black"
+        />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="220dp"
+        android:id="@+id/button_about"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:text="About Us"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/button_wonder"
+        android:fontFamily="sans-serif-smallcaps"
+        android:textColor="@color/black"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
