@@ -3,10 +3,18 @@ package com.example.assignment5project;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,6 +29,7 @@ public class ListviewActivity extends AppCompatActivity {
 
     private ArrayList<Wonders> items;
     private ArrayAdapter<Wonders> adapter;
+    private Wonders[] wonder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +38,19 @@ public class ListviewActivity extends AppCompatActivity {
 
         new JsonTask().execute("https://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=a20samul");
 
+        items = new ArrayList<>();
+        adapter = new ArrayAdapter<Wonders>(ListviewActivity.this,R.layout.listview2, R.id.item, items);
+
+        ListView listView = findViewById(R.id.list_view);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+
+            Wonders wonder = items.get(position);
+
+            String message = "The wonder " +  wonder.getName() + " is a " + wonder.getCategory() +
+                    ". It is located in " + wonder.getLocation() + " and was built " + wonder.getCompany();
+            Toast.makeText(ListviewActivity.this, message, Toast.LENGTH_LONG).show();
+        });
 
     }
 
@@ -75,6 +97,22 @@ public class ListviewActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String json) {
+            try {
+                Log.d("AsyncTask", json);
+                Gson gson = new Gson();
+                Wonders[] wonder = gson.fromJson(json, Wonders[].class);
+                adapter.clear();
+
+                for (int i = 0; i < wonder.length; i++) {
+                    Log.d("ListviewActivity ==>", "Hittade ett berg: " + wonder[i]);
+                    adapter.add(wonder[i]);
+                }
+                adapter.notifyDataSetChanged();
+            } catch (Exception e) {
+                Log.e("ListviewActivity ==>", "Something went wrong.");
+            }
+
+
         }
 
 

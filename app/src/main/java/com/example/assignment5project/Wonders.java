@@ -19,11 +19,6 @@ public class Wonders {
 
     public String getCategory() { return category;}
 
-    public int getSize() { return size;}
-
     public Auxdata getAuxdata() { return auxdata;}
-
-
-
 
 }
