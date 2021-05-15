@@ -41,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 Log.d("TAG", "Start SecondActivity");
             }
-
-
-
         });
 
     }
