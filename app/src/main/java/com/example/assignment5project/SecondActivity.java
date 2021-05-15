@@ -45,6 +45,11 @@ public class SecondActivity extends AppCompatActivity {
             Log.d("TAG", "Load About page");
         });
 
+        Button gobackButton = findViewById(R.id.button_goback);
+        gobackButton.setOnClickListener(view -> {
+            Log.d("END", "Finish app");
+            finish();
+        });
 
     }
 }
