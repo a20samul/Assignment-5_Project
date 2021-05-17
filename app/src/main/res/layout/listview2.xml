@@ -5,4 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="Text"
-    android:textSize="18sp" />
+    android:textSize="18sp"
+    android:textAlignment="center"
+    android:gravity="center_horizontal"
+    android:fontFamily="sans-serif-smallcaps"
+    android:textColor="@color/black"/>

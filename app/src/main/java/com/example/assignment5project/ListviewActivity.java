@@ -3,23 +3,28 @@ package com.example.assignment5project;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StyleableRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -40,6 +45,7 @@ public class ListviewActivity extends AppCompatActivity {
    private WebView mySecondWebView;
 
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +74,18 @@ public class ListviewActivity extends AppCompatActivity {
 
             String message = "The wonder " +  wonder.getName() + " is a " + wonder.getCategory() +
                     ". It is located in " + wonder.getLocation() + " and was built " + wonder.getCompany();
-            Toast.makeText(ListviewActivity.this, message, Toast.LENGTH_LONG).show();
+
+           /*Snackbar snackbar = Snackbar.make(findViewById(R.id.CL), message, Snackbar.LENGTH_LONG);
+           snackbar.show();*/
+
+            Snackbar snackbar =  Snackbar.make(view, message,Snackbar.LENGTH_LONG).setDuration(7000);
+            View snackbarView = snackbar.getView();
+            TextView tv = snackbarView.findViewById(R.id.snackbar_text);
+            tv.setMaxLines(3);
+            snackbar.show();
+
+            //Toast.makeText(ListviewActivity.this, message, Toast.LENGTH_LONG).show();
+
         });
     }
 
