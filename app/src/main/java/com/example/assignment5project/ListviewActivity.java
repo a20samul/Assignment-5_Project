@@ -1,18 +1,14 @@
 package com.example.assignment5project;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 
@@ -29,7 +25,7 @@ public class ListviewActivity extends AppCompatActivity {
 
     private ArrayList<Wonders> items;
     private ArrayAdapter<Wonders> adapter;
-    private Wonders[] wonder;
+   /* private Wonders[] wonder; */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +35,7 @@ public class ListviewActivity extends AppCompatActivity {
         new JsonTask().execute("https://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=a20samul");
 
         items = new ArrayList<>();
-        adapter = new ArrayAdapter<Wonders>(ListviewActivity.this,R.layout.listview2, R.id.item, items);
+        adapter = new ArrayAdapter<Wonders>(ListviewActivity.this, R.layout.listview2, R.id.item, items);
 
         ListView listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
@@ -53,6 +49,7 @@ public class ListviewActivity extends AppCompatActivity {
         });
 
     }
+
 
 
     @SuppressLint("StaticFieldLeak")
@@ -102,24 +99,14 @@ public class ListviewActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 Wonders[] wonder = gson.fromJson(json, Wonders[].class);
                 adapter.clear();
-
                 for (int i = 0; i < wonder.length; i++) {
-                    Log.d("ListviewActivity ==>", "Hittade ett berg: " + wonder[i]);
+                    Log.d("ListviewActivity ==>", "Found a wonder: " + wonder[i]);
                     adapter.add(wonder[i]);
                 }
                 adapter.notifyDataSetChanged();
             } catch (Exception e) {
                 Log.e("ListviewActivity ==>", "Something went wrong.");
             }
-
-
         }
-
-
-
     }
-
-
-
-
 }

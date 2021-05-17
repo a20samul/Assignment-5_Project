@@ -9,7 +9,7 @@ public class Wonders {
     private String category;
     private int size;
     private int cost;
-    private Auxdata auxdata;
+    private String auxdata;
 
     public String getName() { return name;}
 
@@ -19,6 +19,9 @@ public class Wonders {
 
     public String getCategory() { return category;}
 
-    public Auxdata getAuxdata() { return auxdata;}
+    public String getAuxdata() { return auxdata;}
+
+      @Override
+    public String toString() { return name;}
 
 }
