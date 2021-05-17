@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StyleableRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -98,6 +99,17 @@ public class ListviewActivity extends AppCompatActivity {
             myPreferenceEditor.apply();
             //Toast.makeText(ListviewActivity.this, message, Toast.LENGTH_LONG).show();
 
+        });
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textView.setText("");
+                myPreferenceEditor.clear();
+                myPreferenceEditor.commit();
+                Log.d("==>","You have cleared the history");
+            }
         });
     }
 
