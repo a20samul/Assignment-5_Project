@@ -27,7 +27,7 @@
         android:fontFamily="sans-serif-smallcaps"
         android:textColor="@color/black"
         android:textSize="20sp"
-
+        android:textStyle="bold"
         />
 
 
@@ -39,6 +39,22 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/webView2" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/list_view"
+        android:id="@+id/recentTitle"
+        android:text="Recently viewed:"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/recentTitle"
+        android:id="@+id/recentlyViewed"
+        />
+
 
     <TextView
         android:layout_width="match_parent"

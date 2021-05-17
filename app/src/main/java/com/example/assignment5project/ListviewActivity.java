@@ -3,6 +3,7 @@ package com.example.assignment5project;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,7 +44,9 @@ public class ListviewActivity extends AppCompatActivity {
     private ArrayAdapter<Wonders> adapter;
    /* private Wonders[] wonder; */
    private WebView mySecondWebView;
-
+    private SharedPreferences myPreferenceRef;
+    private SharedPreferences.Editor myPreferenceEditor;
+    private TextView textView;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -51,10 +54,15 @@ public class ListviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listview);
 
+        myPreferenceRef = getPreferences(MODE_PRIVATE);
+        myPreferenceEditor = myPreferenceRef.edit();
+
         new JsonTask().execute("https://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=a20samul");
 
         items = new ArrayList<>();
         adapter = new ArrayAdapter<Wonders>(ListviewActivity.this, R.layout.listview2, R.id.item, items);
+        textView = findViewById(R.id.recentlyViewed);
+        textView.setText(myPreferenceRef.getString("recentlyVisited", "No history found."));
 
         ListView listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
@@ -84,6 +92,10 @@ public class ListviewActivity extends AppCompatActivity {
             tv.setMaxLines(3);
             snackbar.show();
 
+            textView.setText(wonder.getName());
+            // Store the new preference
+            myPreferenceEditor.putString("recentlyVisited", wonder.getName());
+            myPreferenceEditor.apply();
             //Toast.makeText(ListviewActivity.this, message, Toast.LENGTH_LONG).show();
 
         });
