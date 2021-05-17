@@ -1,16 +1,27 @@
 package com.example.assignment5project;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,6 +37,8 @@ public class ListviewActivity extends AppCompatActivity {
     private ArrayList<Wonders> items;
     private ArrayAdapter<Wonders> adapter;
    /* private Wonders[] wonder; */
+   private WebView mySecondWebView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +53,23 @@ public class ListviewActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
-
             Wonders wonder = items.get(position);
+
+            mySecondWebView = findViewById(R.id.webView2);
+            WebViewClient myWebViewClient = new WebViewClient();
+            mySecondWebView.setWebViewClient(myWebViewClient);
+
+            WebSettings webSettings = mySecondWebView.getSettings();
+            webSettings.setJavaScriptEnabled(true);
+
+            mySecondWebView.loadUrl(wonder.getAuxdata());
+            /*ImageView imageView = findViewById(R.id.imageView);
+            Picasso.get().load(wonder.getAuxdata()).into(imageView);*/
 
             String message = "The wonder " +  wonder.getName() + " is a " + wonder.getCategory() +
                     ". It is located in " + wonder.getLocation() + " and was built " + wonder.getCompany();
             Toast.makeText(ListviewActivity.this, message, Toast.LENGTH_LONG).show();
         });
-
     }
 
 
@@ -108,5 +130,30 @@ public class ListviewActivity extends AppCompatActivity {
                 Log.e("ListviewActivity ==>", "Something went wrong.");
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.dropdown_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.home_page:
+                Intent intent1 = new Intent(ListviewActivity.this, MainActivity.class);
+                startActivity(intent1);
+                Log.d("HOME", "Successfully launched home page");
+                return true;
+            case R.id.about_page:
+                Intent intent = new Intent(ListviewActivity.this, About.class);
+                startActivity(intent);
+                Log.d("ABOUT", "About page");
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

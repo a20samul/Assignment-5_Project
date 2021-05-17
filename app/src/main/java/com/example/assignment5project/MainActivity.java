@@ -56,12 +56,19 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
+            case R.id.home_page:
+                Intent intent1 = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent1);
+                Log.d("HOME", "Successfully launched home page");
+                return true;
             case R.id.about_page:
                 Intent intent = new Intent(MainActivity.this, About.class);
                 startActivity(intent);
                 Log.d("ABOUT", "About page");
+                return true;
         }
         return super.onOptionsItemSelected(item);
+
     }
 
 
