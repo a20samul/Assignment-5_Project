@@ -11,6 +11,16 @@ public class Wonders {
     private int cost;
     private String auxdata;
 
+    public Wonders(long _in, String _name, String _company, String _location, String _category, String _auxdata) {
+        ID=Long.toString(_in);
+        name = _name;
+        company = _company;
+        location = _location;
+        category = _category;
+        auxdata = _auxdata;
+
+    }
+
     public String getName() { return name;}
 
     public String getCompany() { return company;}

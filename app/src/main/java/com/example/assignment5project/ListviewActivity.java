@@ -1,10 +1,11 @@
 package com.example.assignment5project;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,19 +17,15 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.StyleableRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,13 +35,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListviewActivity extends AppCompatActivity {
 
     private ArrayList<Wonders> items;
     private ArrayAdapter<Wonders> adapter;
-   /* private Wonders[] wonder; */
-   private WebView mySecondWebView;
+    /* private Wonders[] wonder; */
+    private WebView mySecondWebView;
     private SharedPreferences myPreferenceRef;
     private SharedPreferences.Editor myPreferenceEditor;
     private TextView textView;
@@ -81,13 +79,13 @@ public class ListviewActivity extends AppCompatActivity {
             /*ImageView imageView = findViewById(R.id.imageView);
             Picasso.get().load(wonder.getAuxdata()).into(imageView);*/
 
-            String message = "The wonder " +  wonder.getName() + " is a " + wonder.getCategory() +
-                    ". It is located in " + wonder.getLocation() + " and was built " + wonder.getCompany();
+            String message = "The wonder " + wonder.getName() + " is a " + wonder.getCategory() +
+                    ". It is located in " + wonder.getLocation() + " and was built in " + wonder.getCompany();
 
            /*Snackbar snackbar = Snackbar.make(findViewById(R.id.CL), message, Snackbar.LENGTH_LONG);
            snackbar.show();*/
 
-            Snackbar snackbar =  Snackbar.make(view, message,Snackbar.LENGTH_LONG).setDuration(7000);
+            Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG).setDuration(7000);
             View snackbarView = snackbar.getView();
             TextView tv = snackbarView.findViewById(R.id.snackbar_text);
             tv.setMaxLines(3);
@@ -183,7 +181,7 @@ public class ListviewActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.home_page:
                 Intent intent1 = new Intent(ListviewActivity.this, MainActivity.class);
                 startActivity(intent1);
