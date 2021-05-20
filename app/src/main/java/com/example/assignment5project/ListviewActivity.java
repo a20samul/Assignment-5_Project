@@ -67,7 +67,7 @@ public class ListviewActivity extends AppCompatActivity {
 
         //  results WHERE "title" = 'My Title'
         String selection = DatabaseTables.Wonders.COLUMN_NAME_CATEGORY + " = ?";
-        String[] selectionArgs = { "Pyramid" };
+        String[] selectionArgs = { "City" };
 
         Cursor cursor = database.query(
                 DatabaseTables.Wonders.TABLE_NAME,

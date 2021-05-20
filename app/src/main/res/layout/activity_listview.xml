@@ -84,7 +84,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/fab"
         app:layout_constraintTop_toBottomOf="@id/list_view"
-        android:text="Filter"/>
+        android:text="Cities"/>
     <Button
         android:id="@+id/allButton"
         android:layout_width="wrap_content"
