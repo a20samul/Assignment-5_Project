@@ -11,8 +11,6 @@ package com.example.assignment5project;
             static final String COLUMN_NAME_LOCATION = "location";
             static final String COLUMN_NAME_CATEGORY = "category";
             static final String COLUMN_NAME_AUXDATA = "auxdata";
-
-
         }
 
         static final String SQL_CREATE_TABLE_MOUNTAIN =
@@ -22,7 +20,7 @@ package com.example.assignment5project;
                         Wonders.COLUMN_NAME_NAME + " TEXT," +
                         Wonders.COLUMN_NAME_COMPANY + " TEXT " +
                         Wonders.COLUMN_NAME_LOCATION + " TEXT " +
-                        Wonders.COLUMN_NAME_CATEGORY + " TEXT" +
+                        Wonders.COLUMN_NAME_CATEGORY + " TEXT " +
                         Wonders.COLUMN_NAME_AUXDATA + " TEXT)";
 
         static final String SQL_DELETE_TABLE_MOUNTAIN =

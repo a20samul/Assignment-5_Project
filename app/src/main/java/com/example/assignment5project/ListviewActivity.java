@@ -17,6 +17,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -41,11 +42,54 @@ public class ListviewActivity extends AppCompatActivity {
 
     private ArrayList<Wonders> items;
     private ArrayAdapter<Wonders> adapter;
-    /* private Wonders[] wonder; */
+    //private Wonders[] wonder;
     private WebView mySecondWebView;
     private SharedPreferences myPreferenceRef;
     private SharedPreferences.Editor myPreferenceEditor;
     private TextView textView;
+    private SQLiteDatabase database;
+    private DatabaseHelper databaseHelper;
+
+    // Inserts into database
+    private long insertWonders(Wonders m) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseTables.Wonders.COLUMN_NAME_NAME, m.getName());
+        values.put(DatabaseTables.Wonders.COLUMN_NAME_COMPANY, m.getCompany());
+        values.put(DatabaseTables.Wonders.COLUMN_NAME_LOCATION, m.getLocation());
+        values.put(DatabaseTables.Wonders.COLUMN_NAME_CATEGORY, m.getCategory());
+        values.put(DatabaseTables.Wonders.COLUMN_NAME_AUXDATA, m.getAuxdata());
+        return database.insert(DatabaseTables.Wonders.TABLE_NAME, null, values);
+    }
+
+    private List<Wonders> fetchWonders() {
+
+        //  results WHERE "title" = 'My Title'
+        String selection = DatabaseTables.Wonders.COLUMN_NAME_CATEGORY + " = ?";
+        String[] selectionArgs = { "Pyramid" };
+
+        Cursor cursor = database.query(
+                DatabaseTables.Wonders.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null);
+        List<Wonders> wonders = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            Wonders wonder = new Wonders(
+                    cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseTables.Wonders.COLUMN_NAME_ID)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Wonders.COLUMN_NAME_NAME)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Wonders.COLUMN_NAME_COMPANY)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Wonders.COLUMN_NAME_LOCATION)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Wonders.COLUMN_NAME_CATEGORY)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Wonders.COLUMN_NAME_AUXDATA))
+            );
+            wonders.add(wonder);
+        }
+        cursor.close();
+        return wonders;
+    }
 
     @SuppressLint("WrongConstant")
     @Override
@@ -55,6 +99,10 @@ public class ListviewActivity extends AppCompatActivity {
 
         myPreferenceRef = getPreferences(MODE_PRIVATE);
         myPreferenceEditor = myPreferenceRef.edit();
+
+        // Initialise DatabaseHelper classes
+        databaseHelper = new DatabaseHelper(this);
+        database = databaseHelper.getWritableDatabase();
 
         new JsonTask().execute("https://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=a20samul");
 
@@ -76,14 +124,9 @@ public class ListviewActivity extends AppCompatActivity {
             webSettings.setJavaScriptEnabled(true);
 
             mySecondWebView.loadUrl(wonder.getAuxdata());
-            /*ImageView imageView = findViewById(R.id.imageView);
-            Picasso.get().load(wonder.getAuxdata()).into(imageView);*/
 
             String message = "The wonder " + wonder.getName() + " is a " + wonder.getCategory() +
                     ". It is located in " + wonder.getLocation() + " and was built in " + wonder.getCompany();
-
-           /*Snackbar snackbar = Snackbar.make(findViewById(R.id.CL), message, Snackbar.LENGTH_LONG);
-           snackbar.show();*/
 
             Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG).setDuration(7000);
             View snackbarView = snackbar.getView();
@@ -95,7 +138,6 @@ public class ListviewActivity extends AppCompatActivity {
             // Store the new preference
             myPreferenceEditor.putString("recentlyVisited", wonder.getName());
             myPreferenceEditor.apply();
-            //Toast.makeText(ListviewActivity.this, message, Toast.LENGTH_LONG).show();
 
         });
 
@@ -109,9 +151,40 @@ public class ListviewActivity extends AppCompatActivity {
                 Log.d("==>","You have cleared the history");
             }
         });
+
+        Button fetchButton = findViewById(R.id.fetchFilter);
+        fetchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Wonders> tmp = fetchWonders();
+                adapter.clear();
+                Log.d("ListviewActivity ==>", "Will fetch from database");
+
+                for (int i = 0; i < tmp.size(); i++) {
+                        Wonders m = tmp.get(i);
+                        Log.d("ListviewActivity ==>", m.getCategory());
+                        adapter.add(m);
+                    }
+                    adapter.notifyDataSetChanged();
+                    return;
+            }
+        });
+
+        Button allButton = findViewById(R.id.allButton);
+        allButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("ListviewActivity ==>", "Will insert into database");
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    Wonders m = adapter.getItem(i);
+                    Log.d("ListviewActivity ==>", m.getName());
+                    insertWonders(m);
+                }
+                return;
+
+            }
+        });
     }
-
-
 
     @SuppressLint("StaticFieldLeak")
     private class JsonTask extends AsyncTask<String, String, String> {
@@ -195,4 +268,5 @@ public class ListviewActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

@@ -11,13 +11,13 @@ public class Wonders {
     private int cost;
     private String auxdata;
 
-    public Wonders(long _in, String _name, String _company, String _location, String _category, String _auxdata) {
+    public Wonders(long _in, String _auxdata, String _name, String _company, String _location, String _category) {
         ID=Long.toString(_in);
+        auxdata = _auxdata;
         name = _name;
         company = _company;
         location = _location;
         category = _category;
-        auxdata = _auxdata;
 
     }
 
