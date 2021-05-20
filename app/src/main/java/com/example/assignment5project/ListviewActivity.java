@@ -62,6 +62,8 @@ public class ListviewActivity extends AppCompatActivity {
     }
 
     private List<Wonders> fetchWonders() {
+        myPreferenceEditor.putString("filter", "Filtered");
+        myPreferenceEditor.apply();
 
         //  results WHERE "title" = 'My Title'
         String selection = DatabaseTables.Wonders.COLUMN_NAME_CATEGORY + " = ?";
@@ -91,6 +93,36 @@ public class ListviewActivity extends AppCompatActivity {
         return wonders;
     }
 
+    private List<Wonders> fetchAllWonders() {
+        myPreferenceEditor.putString("filter", "Unfiltered");
+        myPreferenceEditor.apply();
+
+        Cursor cursor = database.query(
+                DatabaseTables.Wonders.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+        List<Wonders> wonders = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            Wonders wonder = new Wonders(
+                    cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseTables.Wonders.COLUMN_NAME_ID)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Wonders.COLUMN_NAME_NAME)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Wonders.COLUMN_NAME_COMPANY)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Wonders.COLUMN_NAME_LOCATION)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Wonders.COLUMN_NAME_CATEGORY)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Wonders.COLUMN_NAME_AUXDATA))
+            );
+            wonders.add(wonder);
+        }
+        cursor.close();
+        return wonders;
+    }
+
+
+
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +136,9 @@ public class ListviewActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(this);
         database = databaseHelper.getWritableDatabase();
 
-        new JsonTask().execute("https://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=a20samul");
+        String fetch = myPreferenceRef.getString("filter", "No history found.");
+        Log.d("fetch", fetch);
+
 
         items = new ArrayList<>();
         adapter = new ArrayAdapter<Wonders>(ListviewActivity.this, R.layout.listview2, R.id.item, items);
@@ -168,22 +202,65 @@ public class ListviewActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     return;
             }
+
         });
 
         Button allButton = findViewById(R.id.allButton);
         allButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("ListviewActivity ==>", "Will insert into database");
+                adapter.clear();
+                List<Wonders> tmp2 = fetchAllWonders();
+                Log.d("ListviewActivity ==>", "Will fetch ALL wonders from database");
+
+                for (int i = 0; i < tmp2.size(); i++) {
+                    Wonders m = tmp2.get(i);
+                    Log.d("ListviewActivity ==>", m.getCategory());
+                    adapter.add(m);
+                }
+                adapter.notifyDataSetChanged();
+                return;
+
+
+                /*Log.d("ListviewActivity ==>", "Will insert into database");
                 for (int i = 0; i < adapter.getCount(); i++) {
                     Wonders m = adapter.getItem(i);
                     Log.d("ListviewActivity ==>", m.getName());
                     insertWonders(m);
                 }
-                return;
-
+                return;*/
             }
         });
+
+
+        if(fetch=="No history found.") {
+            new JsonTask().execute("https://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=a20samul");
+            myPreferenceEditor.putString("filter", "Unfiltered");
+            myPreferenceEditor.apply();
+        }
+        else if (fetch.equals("Unfiltered")){
+            List<Wonders> tempWonders = fetchAllWonders();
+            adapter.clear();
+            for (int i = 0; i < tempWonders.size(); i++) {
+                //tempWonders.get(i); returnerar ett wonder
+                Log.d("ListviewActivity ==>", "Found a wonder: " + tempWonders.get(i));
+                adapter.add(tempWonders.get(i));
+            }
+            adapter.notifyDataSetChanged();
+        }
+        else if (fetch.equals("Filtered")){
+            List<Wonders> tempWonders = fetchWonders();
+            adapter.clear();
+            for (int i = 0; i < tempWonders.size(); i++) {
+                //tempWonders.get(i); returnerar ett wonder
+                Log.d("ListviewActivity ==>", "Found a wonder: " + tempWonders.get(i));
+                adapter.add(tempWonders.get(i));
+            }
+            adapter.notifyDataSetChanged();
+        }
+        else{
+            Log.d("Something happened", "fetch:" + fetch);
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -236,6 +313,7 @@ public class ListviewActivity extends AppCompatActivity {
                 for (int i = 0; i < wonder.length; i++) {
                     Log.d("ListviewActivity ==>", "Found a wonder: " + wonder[i]);
                     adapter.add(wonder[i]);
+                    insertWonders(wonder[i]);
                 }
                 adapter.notifyDataSetChanged();
             } catch (Exception e) {

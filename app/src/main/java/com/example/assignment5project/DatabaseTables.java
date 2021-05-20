@@ -18,9 +18,9 @@ package com.example.assignment5project;
                 "CREATE TABLE " + Wonders.TABLE_NAME + " (" +
                         Wonders.COLUMN_NAME_ID + " INTEGER PRIMARY KEY," +
                         Wonders.COLUMN_NAME_NAME + " TEXT," +
-                        Wonders.COLUMN_NAME_COMPANY + " TEXT " +
-                        Wonders.COLUMN_NAME_LOCATION + " TEXT " +
-                        Wonders.COLUMN_NAME_CATEGORY + " TEXT " +
+                        Wonders.COLUMN_NAME_COMPANY + " TEXT, " +
+                        Wonders.COLUMN_NAME_LOCATION + " TEXT, " +
+                        Wonders.COLUMN_NAME_CATEGORY + " TEXT, " +
                         Wonders.COLUMN_NAME_AUXDATA + " TEXT)";
 
         static final String SQL_DELETE_TABLE_MOUNTAIN =
