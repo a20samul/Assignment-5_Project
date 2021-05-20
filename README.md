@@ -143,7 +143,11 @@ the main page with the listview, to the about page and one which returned to hom
 All homepage buttons were executed using finish(); to not stack the screens on top of each other.
 
 ![](2.png)
-__Image 3: Displays the sent string.__
+__Image 3: Sending of string.__
+
+
+![](Welcome.png)
+__Image 4: Displays the sent string.__
 
 
 
@@ -209,7 +213,7 @@ This textview was linked to the listview by following code:
   ```
 
   ![](6showWonder2.png)
-  __Image 4: Demonstrates the click of the first wonder.__
+  __Image 5: Demonstrates the click of the first wonder.__
 
   Different components were tried and added. A Snackbar was used at last, which displayed the
   message in the string, which extracted methods from the created Java class. The duration and
@@ -303,7 +307,7 @@ Thereafter code was added for insertion of data into database with the method ca
 insertWonder(m) was added alongside the code in onPostExecute which inserted the data into the database.
 Two methods called fetchWonders(); and fetchAllWonders(); were created.
 
-A new preference was created using following kode and entering the key as "filter"":
+A new preference was created using following code and entering the key as "filter"":
 ```
  String fetch = myPreferenceRef.getString("filter", "No history found.");
         Log.d("fetch", fetch);
@@ -368,6 +372,6 @@ which included all the data from fetchAllWonders();.
 ```
 
 ![](7CityFilter.png)
-__Image 5: Displays when filtered by cities.__
+__Image 6: Displays when filtered by cities.__
 
 
